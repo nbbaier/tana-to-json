@@ -1,7 +1,7 @@
 import { type Node } from "./types";
 
 const INDENT_REGEX = /\s*/g;
-const BULLET_REGEX = /\s*-/g;
+const BULLET_REGEX = /^\s*-/g;
 const TAG_REGEX = /#(\w+)/g;
 
 function rtrim(x: string) {
