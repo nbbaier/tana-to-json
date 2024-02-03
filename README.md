@@ -2,6 +2,12 @@
 
 This package provides a function to parse Tana Paste format to JSON.
 
+Install:
+
+```
+npm install tana-to-json
+```
+
 ## Usage
 
 ```ts
