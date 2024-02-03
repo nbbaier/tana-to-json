@@ -43,7 +43,7 @@ function createNode(line: string, isField: boolean, tags: string[]): Node {
 }
 
 export function tanaToJson(tanaPaste: string) {
-  const stack: Node[] = [];
+  let stack: Node[] = [];
   const top: Node = { name: "ROOT", type: "node" };
   let current: Node = top;
   stack.push(top);
@@ -51,6 +51,7 @@ export function tanaToJson(tanaPaste: string) {
 
   for (const line of tanaPaste.split("\n")) {
     const trimmedLine = rtrim(line);
+
     if (trimmedLine === "" || trimmedLine === "-") {
       continue;
     }
@@ -62,16 +63,34 @@ export function tanaToJson(tanaPaste: string) {
     const tags = extractTags(lineWithoutBullet);
     const newNode = createNode(lineWithoutBullet, isField, tags);
 
-    if (level < currentLevel) {
-      stack.splice(level - currentLevel);
-      current = stack[stack.length - 1];
-    } else if (level > currentLevel) {
-      stack.push(current);
+    // if (level < currentLevel) {
+    //   stack.splice(level - currentLevel);
+    //   current = stack[stack.length - 1];
+    // } else if (level > currentLevel) {
+    //   stack.push(current);
+    // }
+
+    function addChild(parent: Node, child: Node) {
+      if (!("children" in parent)) {
+        parent.children = [];
+      }
+      parent.children?.push(child);
     }
-    current.children = current.children || [];
-    current.children.push(newNode);
-    current = newNode;
-    currentLevel = level;
+
+    if (level < currentLevel) {
+      stack = stack.slice(0, level - currentLevel);
+      addChild(stack[stack.length - 1], newNode);
+      current = newNode;
+      currentLevel = level;
+    } else if (level > currentLevel) {
+      addChild(current, newNode);
+      stack.push(current);
+      current = newNode;
+      currentLevel = level;
+    } else {
+      addChild(stack[stack.length - 1], newNode);
+      current = newNode;
+    }
   }
 
   return top.children;

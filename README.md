@@ -7,12 +7,13 @@ This package provides a function to parse Tana Paste format to JSON.
 ```ts
 import { tanaToJson } from "./src/index";
 
-const tanaPaste = `- Hello world #test
-  - Foo:: bar
-  - A child
-  `;
+const tanaPaste = `
+- Hello world #test
+  - foo:: bar
+  - a non-field child`;
 
 const json = tanaToJson(tanaPaste);
+
 ```
 
 The output of the above will be the following object:
@@ -27,20 +28,21 @@ The output of the above will be the following object:
     "type": "node",
     "children": [
       {
-        "name": "Foo",
+        "name": "foo",
         "type": "field",
         "children": [
           {
             "name": "bar",
             "type": "node"
-          },
-          {
-            "name": "A child",
-            "type": "node"
           }
         ]
+      },
+      {
+        "name": "a nonfield child",
+        "type": "node"
       }
     ]
   }
 ]
+
 ```
