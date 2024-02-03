@@ -38,7 +38,8 @@ The output of the above will be the following object:
         ]
       },
       {
-        "name": "a nonfield child",
+        "name": "a non-field child",
+        
         "type": "node"
       }
     ]
