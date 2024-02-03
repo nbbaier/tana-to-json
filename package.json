@@ -1,28 +1,6 @@
 {
   "name": "tana-to-json",
-  "module": "./src/index.ts",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "version": "0.3.2",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "scripts": {
-    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
-    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
-    "postbuild": "rimraf tsconfig.types.tsbuildinfo"
-  },
-  "dependencies": {
-    "rimraf": "^5.0.5"
-  },
-  "files": [
-    "dist/*.js",
-    "dist/*.d.ts"
-  ],
+  "version": "0.1.1",
   "author": {
     "name": "Nico Baier"
   },
@@ -30,7 +8,25 @@
     "type": "git",
     "url": "git+https://github.com/nbbaier/tana-to-json.git"
   },
+  "main": "dist/index.js",
+  "module": "./src/index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "scripts": {
+    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts"
 }
