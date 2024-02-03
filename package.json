@@ -9,7 +9,6 @@
     "url": "git+https://github.com/nbbaier/tana-to-json.git"
   },
   "main": "dist/index.js",
-  "module": "./src/index.ts",
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -17,8 +16,7 @@
     "typescript": "^5.0.0"
   },
   "files": [
-    "dist/*.js",
-    "dist/*.d.ts"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
