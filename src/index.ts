@@ -76,11 +76,3 @@ export function tanaToJson(tanaPaste: string) {
 
   return top.children;
 }
-
-const processed = tanaToJson(`
-- 10 Modern CSS Layout Techniques with 1-Line Styling Code #website #cool
-  - Synopsis::
-    - This website showcases 10 modern CSS layout and sizing techniques that can be achieved with a single line of styling code. Each technique is presented with its corresponding HTML and CSS code, as well as its current browser support and a link to explore it on CodePen. The website is made by Una Kravets (@una) for web.dev. An appropriate name for the website could be "10 Modern CSS Layout Techniques with 1-Line Styling Code".
-  - URL:: https://1linelayouts.glitch.me/
-  - just a child
-`);

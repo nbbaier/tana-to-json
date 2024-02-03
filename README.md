@@ -1,15 +1,46 @@
 # tana-to-json
 
-To install dependencies:
+This package provides a function to parse Tana Paste format to JSON.
 
-```bash
-bun install
+## Usage
+
+```ts
+import { tanaToJson } from "./src/index";
+
+const tanaPaste = `- Hello world #test
+  - Foo:: bar
+  - A child
+  `;
+
+const json = tanaToJson(tanaPaste);
 ```
 
-To run:
+The output of the above will be the following object:
 
-```bash
-bun run index.ts
+```json
+[
+  {
+    "name": "Hello world #test",
+    "tags": [
+      "test"
+    ],
+    "type": "node",
+    "children": [
+      {
+        "name": "Foo",
+        "type": "field",
+        "children": [
+          {
+            "name": "bar",
+            "type": "node"
+          },
+          {
+            "name": "A child",
+            "type": "node"
+          }
+        ]
+      }
+    ]
+  }
+]
 ```
-
-This project was created using `bun init` in bun v1.0.25. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
