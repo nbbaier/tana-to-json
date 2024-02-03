@@ -1,11 +1,36 @@
 {
   "name": "tana-to-json",
   "module": "./src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
+  "version": "0.1.0",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+    "postbuild": "rimraf tsconfig.types.tsbuildinfo"
+  },
+  "dependencies": {
+    "rimraf": "^5.0.5"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ],
+  "author": {
+    "name": "Nico Baier"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbbaier/tana-to-json.git"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
