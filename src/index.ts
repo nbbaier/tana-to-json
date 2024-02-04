@@ -2,7 +2,7 @@ import { type Node } from "./types";
 
 const INDENT_REGEX = /\s*/g;
 const BULLET_REGEX = /^\s*-/g;
-const TAG_REGEX = /#(\w+)/g;
+const TAG_REGEX = /#([\w-]+|\[(\[[\w\s]+\]|[^\]])+\])/g;
 
 function rtrim(x: string) {
   return x.replace(/\s+$/gm, "");
@@ -17,6 +17,13 @@ function extractTags(line: string) {
   return tags;
 }
 
+function addChild(parent: Node, child: Node) {
+  if (!("children" in parent)) {
+    parent.children = [];
+  }
+  parent.children?.push(child);
+}
+
 function createNode(line: string, isField: boolean, tags: string[]): Node {
   if (isField) {
     const [fieldName, fieldValue = ""] = line
@@ -25,18 +32,25 @@ function createNode(line: string, isField: boolean, tags: string[]): Node {
     return {
       name: fieldName,
       type: "field",
-      children: [
-        {
-          name: fieldValue,
-          ...(tags.length > 0 && { tags }),
-          type: "node",
-        },
-      ],
+      children:
+        fieldValue === ""
+          ? []
+          : [
+              {
+                name: fieldValue,
+                ...(tags.length > 0 && {
+                  tags: tags.map((tag) => tag.replace(/\[\[|\]\]/g, "")),
+                }),
+                type: "node",
+              },
+            ],
     };
   } else {
     return {
-      name: line,
-      ...(tags.length > 0 && { tags }),
+      name: line.replace(TAG_REGEX, "").trim(),
+      ...(tags.length > 0 && {
+        tags: tags.map((tag) => tag.replace(/\[\[|\]\]/g, "")),
+      }),
       type: "node",
     };
   }
@@ -62,20 +76,6 @@ export function tanaToJson(tanaPaste: string) {
     const isField = lineWithoutBullet.includes("::");
     const tags = extractTags(lineWithoutBullet);
     const newNode = createNode(lineWithoutBullet, isField, tags);
-
-    // if (level < currentLevel) {
-    //   stack.splice(level - currentLevel);
-    //   current = stack[stack.length - 1];
-    // } else if (level > currentLevel) {
-    //   stack.push(current);
-    // }
-
-    function addChild(parent: Node, child: Node) {
-      if (!("children" in parent)) {
-        parent.children = [];
-      }
-      parent.children?.push(child);
-    }
 
     if (level < currentLevel) {
       stack = stack.slice(0, level - currentLevel);
